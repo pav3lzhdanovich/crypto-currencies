@@ -1,33 +1,32 @@
 <!DOCTYPE html>
 {%load static%}
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8" />
     <title>Title</title>
-    <link rel="stylesheet" href="{%static 'styles/index_css.css'%}">
-</head>
-<body>
-<div class="app">
-    <h1 class="app__heading">Crypto Currencies Price</h1>
-    <section class="coins">
+    <link rel="stylesheet" href="{%static 'styles/index_css.css'%}" />
+  </head>
+  <body>
+    <div class="app">
+      <h1 class="app__heading">Crypto Currencies Price</h1>
+      <section class="coins">
         <div class="grid">
-            {% for key in coin_data_keys %}
-            <div class="card">
-                <div class="card__info">
-                    <div class="card__image"
-                         style="background-image: url('');"></div>
-                    <h2 class="card__name">{{key}}</h2>
-                </div>
-                <div class="card__price-info">
-                    <p class="card__price-tag">Price: </p>
-                    <p class="card__price-value">{{response|get_item:key|get_item:'usd'}}</p>
-                </div>
+          {% for key in coin_data_keys %}
+          <div class="card">
+            <div class="card__info">
+              <div class="card__image" style="background-image: url('')"></div>
+              <h2 class="card__name">{{key}}</h2>
             </div>
-            {% endfor %}
+            <div class="card__price-info">
+              <p class="card__price-tag">Price:</p>
+              <p class="card__price-value">
+                {{response|get_item:key|get_item:'usd'}}
+              </p>
+            </div>
+          </div>
+          {% endfor %}
         </div>
-    </section>
-
-</div>
-
-</body>
+      </section>
+    </div>
+  </body>
 </html>
