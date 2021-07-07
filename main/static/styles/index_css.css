@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+body {
+  background: rgba(220, 220, 220, 1);
+  margin: 0;
+  padding: 0;
+}
+
+/* * {
+  outline: 1px solid red;
+} */
+
+.app {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    font-family: 'Inter', Arial, Helvetica, sans-serif;
+}
+
+.app__heading {
+   font-size: 48px;
+   font-weight: 700;
+    margin: 40px 0 80px;
+}
+
+.coins {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.grid {
+    width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-auto-rows: auto;
+  gap: 10px;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+}
+
+.card {
+  width: 100%;
+  max-width: 300px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: white;
+  box-sizing: border-box;
+  border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 0 15px rgba(0,0,0, 0.3);
+}
+
+.card__name {
+  padding: 0;
+  margin: 0;
+  font-weight: 200;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  font-size: 36px;
+  color: black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  letter-spacing: 3px;
+}
+
+.card__info {
+  width: 100%;
+  max-width: 100%;
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-size: 0;
+}
+
+.card__image::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  backdrop-filter: blur(6px) brightness(.7);
+  pointer-events: none;
+}
+
+.card__image {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  object-position: center;
+  padding: 0;
+  margin: 0;
+  border-radius: 10px 10px 0 0;
+  position: relative;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.card__price-info {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding:30px 20px;
+}
+
+.card__price-tag {
+  padding: 0;
+  margin: 0;
+  font-weight: 600;
+  font-size: 21px;
+}
+
+.card__price-value {
+  margin: 0;
+  padding: 0;
+  font-size: 21px;
+}
