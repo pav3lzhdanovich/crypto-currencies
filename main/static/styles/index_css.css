@@ -21,7 +21,12 @@ body {
 .app__heading {
   font-size: 48px;
   font-weight: 700;
-  margin: 40px 0 80px;
+  margin: 40px 0 20px;
+}
+
+.app__description {
+  margin: 0 0 80px;
+  font-size: 21px;
 }
 
 .coins {
