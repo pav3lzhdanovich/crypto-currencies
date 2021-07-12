@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
 body {
-  background: rgba(220, 220, 220, 1);
+  background: #121212;
   margin: 0;
   padding: 0;
 }
@@ -15,51 +15,51 @@ body {
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  font-family: 'Inter', Arial, Helvetica, sans-serif;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  box-sizing: border-box;
+  padding: 0 0 50px;
 }
 
 .app__heading {
   font-size: 48px;
   font-weight: 700;
   margin: 40px 0 20px;
+  color: #fff;
 }
 
 .app__description {
   margin: 0 0 80px;
   font-size: 21px;
+  color: #fff;
 }
 
 .coins {
   width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
 }
 
 .grid {
-  width: 100%;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(100px, 330px));
   grid-auto-rows: auto;
   gap: 10px;
   justify-items: center;
   align-items: center;
-  justify-content: center;
+  justify-content: space-around;
   align-content: center;
 }
 
 .card {
   width: 100%;
-  max-width: 300px;
+  height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
   background: white;
   box-sizing: border-box;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 0 15px rgba(0, 0, 0, 0.3);
+  /* box-shadow: 0 0 15px rgba(0, 0, 0, 0.3); */
 }
 
 .card__name {
@@ -71,8 +71,8 @@ body {
   bottom: 0;
   left: 0;
   right: 0;
-  font-size: 36px;
-  color: black;
+  font-size: 54px;
+  color: #000;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -88,24 +88,10 @@ body {
   font-size: 0;
 }
 
-.card__image::after {
-  content: "";
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 100%;
-  backdrop-filter: blur(6px) brightness(.7);
-  pointer-events: none;
-}
-
 .card__image {
   width: 100%;
-  height: 300px;
-  object-fit: cover;
-  object-position: center;
+  min-height: 350px;
+  max-height: 500px;
   padding: 0;
   margin: 0;
   border-radius: 10px 10px 0 0;
@@ -115,26 +101,80 @@ body {
   background-repeat: no-repeat;
 }
 
-.card__price-info {
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.card__image::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
-  box-sizing: border-box;
-  padding: 30px 20px;
+  height: 100%;
+  backdrop-filter: blur(6px) brightness(0.7);
+  pointer-events: none;
 }
 
-.card__price-tag {
+.card__price-info {
+  margin: 0;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-auto-rows: auto;
+  align-content: space-evenly;
+  gap: 10px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  list-style: none;
+  padding: 10px;
+}
+
+.card__market {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+  box-sizing: border-box;
+  padding-bottom: 10px;
+}
+
+.card__market:last-child {
+  border-bottom: none;
+}
+
+.card__market-name {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0 0 12px;
+}
+
+.card__prices {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.card__price {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.card__currency {
   padding: 0;
   margin: 0;
   font-weight: 600;
-  font-size: 21px;
+  font-size: 14px;
+  margin-right: 3px;
 }
 
 .card__price-value {
   margin: 0;
   padding: 0;
-  font-size: 21px;
+  font-size: 14px;
+  font-weight: 500;
 }

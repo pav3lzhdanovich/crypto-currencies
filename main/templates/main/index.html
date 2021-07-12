@@ -4,29 +4,44 @@
   <head>
     <meta charset="UTF-8" />
     <title>Title</title>
-    <link rel="stylesheet" href="{%static 'styles/index_css.css'%}" />
+    <link rel="stylesheet" href="{% static 'styles/index_css.css' %}" />
   </head>
+
   <body>
     <div class="app">
       <h1 class="app__heading">Crypto Currencies Price</h1>
-      <p class="app__desription">Today prices</p>
-      <section class="coins">
-        <div class="grid">
-          {% for key in coin_data_keys %}
-          <div class="card">
-            <div class="card__info">
-              <div class="card__image" style="background-image: url('')"></div>
-              <h2 class="card__name">{{key}}</h2>
-            </div>
-            <div class="card__price-info">
-              <p class="card__price-tag">Price:</p>
-              <p class="card__price-value">
-                {{response|get_item:key|get_item:'usd'}}
-              </p>
-            </div>
+      <p class="app__description">Today prices</p>
+      <section class="coins grid">
+        {% for coin in coins %}
+        <div class="card">
+          <div class="card__info">
+            {% with image=coin|get_item:'image'|get_item:'large' %}
+            <div
+              class="card__image"
+              style="background-image: url('{{image}}')"
+            ></div>
+            {% endwith %}
+            <h2 class="card__name">{{coin|get_item:'id'}}</h2>
           </div>
-          {% endfor %}
+          <ul class="card__price-info">
+            {% for market in coin|get_item:'price' %}
+            <li class="card__market">
+              <p class="card__market-name">{{market}}</p>
+              <ul class="card__prices">
+                {%for currency in coin|get_item:'price'|get_item:market %}
+                <li class="card__price">
+                  <p class="card__currency">{{currency}}{{': '}}</p>
+                  <p class="card__price-value">
+                    {{coin|get_item:'price'|get_item:market|get_item:currency}}
+                  </p>
+                </li>
+                {%endfor%}
+              </ul>
+            </li>
+            {%endfor%}
+          </ul>
         </div>
+        {% endfor %}
       </section>
     </div>
   </body>
