@@ -1,37 +1,111 @@
 from django.shortcuts import render
-from django.http import HttpResponse
 from pycoingecko import CoinGeckoAPI
 from django.template.defaulttags import register
 
 cg = CoinGeckoAPI()
 
-# needed_coins = 'ripple,ethereum,bitcoin'
-coin_list = ['bitcoin', 'ethereum', 'ripple']
-coin_list.sort()
-api_list = ','.join(coin_list)
+
+def get_background_image(link):
+    return f'background-image: url({link})'
 
 
-def get_coin_data(coins):
-    return cg.get_price(ids=coins, vs_currencies='usd', include_market_cap='true')
+def modify_percentage_change(digit):
+    arr = list(str(round(digit, 2)))
+    if arr[0] == "-":
+        arr[0] = "▼"
+    else:
+        arr.insert(0, "▲")
+    return {
+        "digit": digit,
+        "string": "".join(arr),
+    }
 
-coin_data = get_coin_data(api_list)
-coin_data_keys = list(coin_data.keys())
-coin_data_keys.sort()
-print(coin_data)
+
+def get_market_prices(
+    base,
+    all_tickers,
+    exchanges_id_array,
+):
+    result = {}
+    vs_currencies = ['USD', 'USDT', 'EUR', 'BTC']
+    for exchange in exchanges_id_array:
+        for ticker in all_tickers:
+            for currency in vs_currencies:
+                if ticker["target"] == currency and ticker["target"] != base:
+                    if exchange == ticker["market"]["identifier"]:
+                        if exchange in result:
+                            result[exchange][ticker["target"]] = ticker["last"]
+                        else:
+                            result[exchange] = {}
+                            result[exchange][ticker["target"]] = ticker["last"]
+    return result
+
+
+def get_all_coins():
+    result = []
+    for coin in cg.get_coins_list():
+        result.append(coin["id"])
+    print(result)
+    return result
+
+
+needed_coins = [
+    'bitcoin', 'ethereum', 'ripple', 'cardano', 'kucoin-shares', 'dogecoin',
+    'revain', 'okb', 'crypto-com-chain', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 
+];
+
+def get_coin_info(coin_list):
+    result_coin_data = []
+    for coin in coin_list:
+        coin_full_info = cg.get_coin_by_id(coin)
+        coin_dict = {
+            "id":
+            coin_full_info["id"],
+            "symbol":
+            coin_full_info["symbol"],
+            "name": {
+                "en": coin_full_info["localization"]["en"],
+                "ru": coin_full_info["localization"]["ru"],
+            },
+            "current_usd_price":
+            round(coin_full_info["market_data"]["current_price"]["usd"], 4),
+            "markets":
+            get_market_prices(
+                coin_full_info["symbol"].upper(), coin_full_info["tickers"],
+                ['kucoin', 'binance', 'gate', 'kraken', 'currency']),
+            "image":
+            coin_full_info["image"],
+            "price_change_percentage_24h":
+            modify_percentage_change(
+                coin_full_info["market_data"]["price_change_percentage_24h"])
+        }
+        result_coin_data.append(coin_dict)
+    return result_coin_data
+
+
+coin_info = get_coin_info(needed_coins)
+
 
 @register.filter
 def get_item(dictionary, key):
     return dictionary.get(key)
 
 
+@register.filter
+def get_keys(dictionary):
+    return list(dictionary.keys())
+
+
 def index(request):
     data = {
-        'coin_data_keys': coin_data_keys,
-        'response': coin_data,
-        'get_item': get_item
+        "coins": coin_info,
+        "get_item": get_item,
+        "get_keys": get_keys,
+        "background_image": get_background_image
     }
 
     return render(request, 'main/index.html', context=data)
+
 
 # index()
 # print(index)
