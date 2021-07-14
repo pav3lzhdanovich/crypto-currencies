@@ -46,6 +46,8 @@ body {
   align-items: center;
   justify-content: space-around;
   align-content: center;
+  box-sizing: border-box;
+  padding: 0 20px;
 }
 
 .card {
