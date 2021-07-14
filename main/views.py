@@ -4,7 +4,24 @@ from django.template.defaulttags import register
 
 cg = CoinGeckoAPI()
 
-def get_prices(
+
+def get_background_image(link):
+    return f'background-image: url({link})'
+
+
+def modify_percentage_change(digit):
+    arr = list(str(round(digit, 2)))
+    if arr[0] == "-":
+        arr[0] = "▼"
+    else:
+        arr.insert(0, "▲")
+    return {
+        "digit": digit,
+        "string": "".join(arr),
+    }
+
+
+def get_market_prices(
     base,
     all_tickers,
     exchanges_id_array,
@@ -24,8 +41,18 @@ def get_prices(
     return result
 
 
-needed_coins = ['bitcoin', 'ethereum', 'ripple']
+def get_all_coins():
+    result = []
+    for coin in cg.get_coins_list():
+        result.append(coin["id"])
+    print(result)
+    return result
 
+
+needed_coins = [
+    'bitcoin', 'ethereum', 'ripple', 'cardano', 'kucoin-shares', 'dogecoin',
+    'revain', 'okb', 'crypto-com-chain', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 'dai', 
+];
 
 def get_coin_info(coin_list):
     result_coin_data = []
@@ -40,15 +67,17 @@ def get_coin_info(coin_list):
                 "en": coin_full_info["localization"]["en"],
                 "ru": coin_full_info["localization"]["ru"],
             },
-            "price":
-            get_prices(coin_full_info["symbol"].upper(),
-                       coin_full_info["tickers"],
-                       ['kucoin', 'binance', 'gate', 'kraken', 'currency']),
+            "current_usd_price":
+            round(coin_full_info["market_data"]["current_price"]["usd"], 4),
+            "markets":
+            get_market_prices(
+                coin_full_info["symbol"].upper(), coin_full_info["tickers"],
+                ['kucoin', 'binance', 'gate', 'kraken', 'currency']),
             "image":
             coin_full_info["image"],
-            "price_change_percentage_24h_usd":
-            coin_full_info["market_data"]
-            ["price_change_percentage_24h_in_currency"]["usd"]
+            "price_change_percentage_24h":
+            modify_percentage_change(
+                coin_full_info["market_data"]["price_change_percentage_24h"])
         }
         result_coin_data.append(coin_dict)
     return result_coin_data
@@ -72,6 +101,7 @@ def index(request):
         "coins": coin_info,
         "get_item": get_item,
         "get_keys": get_keys,
+        "background_image": get_background_image
     }
 
     return render(request, 'main/index.html', context=data)
