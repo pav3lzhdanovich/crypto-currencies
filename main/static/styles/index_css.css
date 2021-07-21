@@ -83,6 +83,21 @@ body {
   transition: .3s;
 }
 
+
+.card__market-cap {
+  display: none;
+  font-weight: 600;
+}
+
+.card__market-cap::before {
+  content: "Market Cap: ";
+  font-weight: 400;
+}
+
+.card__market-cap::after {
+  content: "$"
+}
+
 .card__info {
   width: 100%;
   position: relative;
@@ -102,6 +117,11 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   transition: .3s;
+}
+
+.card:hover .card__market-cap {
+  display: flex;
+  margin: 20px 0;
 }
 
 .card:hover .card__image {
@@ -180,10 +200,12 @@ body {
 }
 
 .card__market-name {
+  text-align: center;
+  width: 100%;
   font-size: 21px;
   font-weight: 200;
   letter-spacing: 2px;
-  margin: 0 0 12px;
+  margin: 0;
   color: #000;
 }
 

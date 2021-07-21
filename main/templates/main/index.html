@@ -1,69 +1,66 @@
 <!DOCTYPE html>
 {%load static%}
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
+<head>
+    <meta charset="UTF-8"/>
     <title>Title</title>
-    <link rel="stylesheet" href="{% static 'styles/index_css.css' %}" />
-  </head>
+    <link rel="stylesheet" href="{% static 'styles/index_css.css' %}"/>
+</head>
 
-  <body>
-    <div class="app">
-      <h1 class="app__heading">Crypto Currencies Price</h1>
-      <p class="app__description">Today prices</p>
-      <section class="coins grid">
+<body>
+<div class="app">
+    <h1 class="app__heading">Crypto Currencies Price</h1>
+    <p class="app__description">Today prices</p>
+    <section class="coins grid">
         {% for coin in coins %}
         <div class="card">
-          <div class="card__info">
-            {% with image=coin|get_item:'image'|get_item:'large' %}
-            <div
-              class="card__image"
-              style="background-image: url('{{image}}')"
-            ></div>
-            {% endwith %}
-            <h2 class="card__name">{{coin|get_item:'name'|get_item:'en'}}</h2>
-          </div>
-          <div class="card__price-info">
-            <div class="card__price-short">
-              <p class="card__price">${{coin|get_item:'current_usd_price'}}</p>
-              <p
-                class="
+            <div class="card__info">
+                {% with image=coin|get_item:'image'|get_item:'large' %}
+                <div
+                        class="card__image"
+                        style="background-image: url('{{image}}')"
+                ></div>
+                {% endwith %}
+                <h2 class="card__name">{{coin|get_item:'name'|get_item:'en'}}</h2>
+            </div>
+            <div class="card__price-info">
+                <div class="card__price-short">
+                    <p class="card__price">${{coin|get_item:'current_usd_price'}}</p>
+                    <p
+                            class="
                   card__price-change
-                  {%if
-                  coin|get_item:'price_change_percentage_24h'|get_item:'digit'
-                  >=
-                  0
-                  %}
+                  {%if coin|get_item:'price_change_percentage_24h'|get_item:'digit' >= 0%}
                   card__price-change_color_green
                   {%else%}
                   card__price-change_color_red
                   {%endif%}
                 "
-              >
-                {{coin|get_item:'price_change_percentage_24h'|get_item:'string'}}%/24h
-              </p>
-            </div>
-            <ul class="card__markets">
-              {% for market in coin|get_item:'markets' %}
-              <li class="card__market">
-                <p class="card__market-name">{{market}}</p>
-                <ul class="card__prices">
-                  {%for currency in coin|get_item:'markets'|get_item:market %}
-                  <li class="card__price">
-                    <p class="card__currency">{{currency}}{{': '}}</p>
-                    <p class="card__price-value">
-                      {{coin|get_item:'markets'|get_item:market|get_item:currency}}
+                    >
+                        {{coin|get_item:'price_change_percentage_1h'|get_item:'string'}}%/1h
                     </p>
-                  </li>
-                  {%endfor%}
+                </div>
+                <ul class="card__markets">
+                    {% for market in coin|get_item:'markets' %}
+                    <li class="card__market">
+                        <p class="card__market-name">{{market}}</p>
+                        <ul class="card__prices">
+                            {%for currency in coin|get_item:'markets'|get_item:market %}
+                            <li class="card__price">
+                                <p class="card__currency">{{currency}}{{': '}}</p>
+                                <p class="card__price-value">
+                                    {{coin|get_item:'markets'|get_item:market|get_item:currency}}
+                                </p>
+                            </li>
+                            {%endfor%}
+                        </ul>
+                    </li>
+                    {%endfor%}
                 </ul>
-              </li>
-              {%endfor%}
-            </ul>
-          </div>
+                <p class="card__market-cap">{{coin|get_item:'market_cap'}}</p>
+            </div>
         </div>
         {% endfor %}
-      </section>
-    </div>
-  </body>
+    </section>
+</div>
+</body>
 </html>
